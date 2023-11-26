@@ -1,17 +1,7 @@
 {
-  "name": "list-pr-to-sheet",
-  "version": "1.0.0",
-  "description": "A script that calls Github API to collect all the PRs that was made to a specific repo",
-  "main": "script.js",
-  "scripts": {
-    "start": "node script.js"
-  },
   "dependencies": {
-    "axios": "^0.27.2",
-    "json2csv": "^5.0.0",
-    "readline": "^4.1.1"
-  },
-  "devDependencies": {
-    "fs-extra": "^10.1.0"
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "readline-sync": "^1.4.10"
   }
 }
