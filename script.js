@@ -58,7 +58,9 @@ const fetchPRs = async (totalPRs = 100) => {
       pr.body = body;
       bar.tick();
       console.log(
-        `#${pr.number} ${pr.title} (Size: ${pr.size}, Comments: ${pr.comments})`,
+        `#${pr.number} ${pr.title} (Size: ${pr.size}, Comments: ${
+          pr.comments
+        }, Merged: ${pr.merged_at ? "Yes" : "No"})`,
       );
     }
 
@@ -89,6 +91,7 @@ const writePRsToSpreadsheet = (userPRs) => {
     "Created At": pr.created_at,
     "Closed At": pr.closed_at,
     "Merged At": pr.merged_at,
+    Merged: pr.merged_at ? "Yes" : "No",
     Size: pr.size,
     Comments: pr.comments,
     Body: pr.body,
@@ -102,6 +105,7 @@ const writePRsToSpreadsheet = (userPRs) => {
       "Created At",
       "Closed At",
       "Merged At",
+      "Merged?",
       "Size",
       "Comments",
       "Body",
