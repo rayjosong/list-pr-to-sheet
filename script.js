@@ -40,7 +40,6 @@ const fetchPRs = async (totalPRs = 100) => {
     });
   }
   try {
-    console.log(`\nFetching page ${page}\n`);
     const response = await axios.get(
       `https://api.github.com/repos/${process.env.ORGANISATION_NAME}/${process.env.REPO_NAME}/pulls?state=closed&page=${page}&per_page=100`,
       { headers },
@@ -51,15 +50,20 @@ const fetchPRs = async (totalPRs = 100) => {
 
     for (let pr of userPRs) {
       const prDetails = await axios.get(pr.url, { headers });
-      const { additions, deletions, comments, body } = prDetails.data;
+      const { additions, deletions, review_comments, comments, body, labels } =
+        prDetails.data;
 
       pr.size = getPRSize(additions, deletions);
-      pr.comments = comments;
+      pr.review_comments = review_comments;
       pr.body = body;
+
+      // Get label names and join them with a comma
+      pr.labels = labels.map((label) => label.name).join(", ");
+
       bar.tick();
       console.log(
         `#${pr.number} ${pr.title} (Size: ${pr.size}, Comments: ${
-          pr.comments
+          pr.review_comments
         }, Merged: ${pr.merged_at ? "Yes" : "No"})`,
       );
     }
@@ -88,12 +92,13 @@ const writePRsToSpreadsheet = (userPRs) => {
     "PR Number": pr.number,
     Title: pr.title,
     URL: pr.html_url,
+    Labels: pr.labels,
     "Created At": pr.created_at,
     "Closed At": pr.closed_at,
     "Merged At": pr.merged_at,
     Merged: pr.merged_at ? "Yes" : "No",
     Size: pr.size,
-    Comments: pr.comments,
+    "Review Comments": pr.review_comments,
     Body: pr.body,
   }));
 
@@ -102,12 +107,13 @@ const writePRsToSpreadsheet = (userPRs) => {
       "PR Number",
       "Title",
       "URL",
+      "Labels",
       "Created At",
       "Closed At",
       "Merged At",
       "Merged?",
       "Size",
-      "Comments",
+      "Review Comments",
       "Body",
     ],
   });
