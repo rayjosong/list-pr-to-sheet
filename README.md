@@ -50,7 +50,7 @@ Replace `filename.js` with the actual filename of the script.
 
 The script will fetch the PR data and save it to an Excel spreadsheet named `{repo}_{user}_PRs.xlsx`. 
 
-Quick tip: you can use the "HYPERLINK=(url, label)" function on excel if you want to combine the `Title` and `URL` columns in the sheet.
+Quick tip: you can use the `HYPERLINK=(url, label)` function on excel if you want to combine the `Title` and `URL` columns in the sheet.
 
 ## Contributing
 
