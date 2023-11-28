@@ -46,6 +46,13 @@ const fetchPRs = async (totalPRs = 100) => {
     );
 
     const prs = response.data;
+    console.log("number of pull requests found: ", prs.length);
+
+    if (prs.length === 0) {
+      console.error("No pull requests found.");
+      return;
+    }
+
     const userPRs = prs.filter((pr) => pr.user.login === process.env.USERNAME);
 
     for (let pr of userPRs) {
